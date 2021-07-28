@@ -11,6 +11,8 @@ struct ContentView: View {
     
     @EnvironmentObject var model: ContentModel
     
+    @State private var searchText = ""
+    
     var body: some View {
         
         NavigationView {
@@ -19,8 +21,8 @@ struct ContentView: View {
                 Text("Search Bar")
                     .padding()
                 
-                ScrollView {
-                    LazyVStack (alignment: .leading){
+                List {
+                    LazyVStack (alignment: .leading) {
                         ForEach(model.videos) { video in
                             
                             VStack {
@@ -29,19 +31,22 @@ struct ContentView: View {
                                     destination: VideoView(video: video),
                                     label: {
                                         Text(video.title)
+                                            .font(.body)
                                             .padding()
+                                            
                                     })
                             }
                         }
-//                        Text("1")
-//                        Text("2")
+
                     }
                 }
+            
 
             }
             .navigationTitle("All Videos")
             
         }
+        
     }
 }
 

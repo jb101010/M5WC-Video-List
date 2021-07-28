@@ -21,6 +21,7 @@ struct VideoView: View {
             Text(video.title)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
             VideoPlayer(player: AVPlayer(url: url!))
+                .frame(height: 200)
                 .cornerRadius(10)
 
             Spacer()
