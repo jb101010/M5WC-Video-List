@@ -13,11 +13,41 @@ class ContentModel: ObservableObject {
     
     init() {
         
-        getRemoteDate()
+        getLocalData()
+
+        //getRemoteData()
         
     }
     
-    func getRemoteDate() {
+    
+    func getLocalData() {
+        // Get a url to the json file
+        let jsonUrl = Bundle.main.url(forResource: "Data", withExtension: "json")
+        
+        guard jsonUrl != nil else {
+            print("Bad jsonURL")
+            return
+        }
+        
+        do {
+            // Read the file into a data object
+            let jsonData = try Data(contentsOf: jsonUrl!)
+            
+            // Try to decode the json into an array of videos
+            let jsonDecoder = JSONDecoder()
+            let videoData = try jsonDecoder.decode([Video].self, from: jsonData)
+            
+            // Assign parsed modules to modules property
+            self.videos = videoData
+        }
+        catch {
+            // TODO log error
+            print("Couldn't parse local data")
+        }
+        
+    }
+    
+    func getRemoteData() {
         
         let urlString = "https://codewithchris.github.io/Module5Challenge/Data.json"
         
@@ -32,14 +62,16 @@ class ContentModel: ObservableObject {
         let session = URLSession.shared
         
         let dataTask = session.dataTask(with: request) { (data, response, error) in
+ 
             guard error == nil else {
                 // print(error)
                 return
             }
             
-            let decoder = JSONDecoder()
             
             do {
+                let decoder = JSONDecoder()
+
                 let videoData = try decoder.decode([Video].self, from: data!)
                 
                 DispatchQueue.main.async {

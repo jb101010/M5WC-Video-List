@@ -8,8 +8,9 @@
 import Foundation
 
 
-class Video: Identifiable, Decodable {
-    var id:Int
-    var title:String
-    var videoURL:String
+class Video: Decodable, Identifiable {
+
+    var id: Int
+    var title: String
+    var url: String
 }

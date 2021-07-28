@@ -9,17 +9,32 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var model:ContentModel
+    @EnvironmentObject var model: ContentModel
     
     var body: some View {
+        
         NavigationView {
             VStack (alignment: .leading) {
+ 
                 Text("Search Bar")
                     .padding()
+                
                 ScrollView {
-                    LazyVStack{
-                        Text("1")
-                        Text("2")
+                    LazyVStack (alignment: .leading){
+                        ForEach(model.videos) { video in
+                            
+                            VStack {
+                                
+                                NavigationLink(
+                                    destination: VideoView(video: video),
+                                    label: {
+                                        Text(video.title)
+                                            .padding()
+                                    })
+                            }
+                        }
+//                        Text("1")
+//                        Text("2")
                     }
                 }
 
@@ -31,7 +46,10 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+
+    
     static var previews: some View {
         ContentView()
+            .environmentObject(ContentModel())
     }
 }
